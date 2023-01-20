@@ -5,6 +5,7 @@ use clap::Parser;
 use gl_buffer::GlBuffer;
 use glam::{vec2, Vec2};
 use glow::HasContext;
+use glutin::config::ConfigTemplateBuilder;
 use renderer::{OpenglRendererError, BlendMode};
 use tracing::info;
 use tracing_subscriber::{filter::LevelFilter, fmt, prelude::*};
@@ -142,6 +143,9 @@ fn main() -> Result<(), Box<dyn Error>> {
         .with_inner_size(winit::dpi::PhysicalSize::new(600, 400))
         .with_title("Yui app");
 
-    let yui_app = app::app(window_builder)?;
+    let config_template_builder = ConfigTemplateBuilder::new()
+        .with_multisampling(4);
+
+    let yui_app = app::app(window_builder, config_template_builder)?;
     yui_app.run(setup, draw)
 }

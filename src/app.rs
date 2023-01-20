@@ -29,8 +29,11 @@ use winit::{
 use crate::renderer::Renderer;
 
 #[inline]
-pub fn app(window_builder: WindowBuilder) -> Result<App, Box<dyn Error>> {
-    App::new(window_builder)
+pub fn app(
+    window_builder: WindowBuilder,
+    config_template_builder: ConfigTemplateBuilder,
+) -> Result<App, Box<dyn Error>> {
+    App::new(window_builder, config_template_builder)
 }
 
 pub struct App {
@@ -43,7 +46,10 @@ pub struct App {
 }
 
 impl App {
-    pub fn new(window_builder: WindowBuilder) -> Result<App, Box<dyn Error>> {
+    pub fn new(
+        window_builder: WindowBuilder,
+        config_template_builder: ConfigTemplateBuilder,
+    ) -> Result<App, Box<dyn Error>> {
         if cfg!(target_os = "linux") {
             // disables vsync sometimes on x11
             if env::var("vblank_mode").is_err() {
@@ -56,7 +62,7 @@ impl App {
         let (window, gl_config) = glutin_winit::DisplayBuilder::new()
             .with_preference(ApiPrefence::FallbackEgl)
             .with_window_builder(Some(window_builder))
-            .build(&events, ConfigTemplateBuilder::default(), |configs| {
+            .build(&events, config_template_builder, |configs| {
                 configs
                     .filter(|c| c.srgb_capable())
                     .max_by_key(|c| c.num_samples())

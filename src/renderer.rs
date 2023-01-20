@@ -107,7 +107,10 @@ pub struct Renderer {
 
 impl Renderer {
     pub fn new(gl: glow::Context, viewport: UVec2) -> Result<Self, OpenglRendererError> {
-        unsafe { gl.viewport(0, 0, viewport.x as i32, viewport.y as i32) };
+        unsafe {
+            gl.enable(glow::MULTISAMPLE);
+            gl.viewport(0, 0, viewport.x as i32, viewport.y as i32);
+        }
 
         // Shaders
         // TODO: shaders
