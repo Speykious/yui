@@ -19,7 +19,7 @@ float roundRect(vec2 coords, float radius, vec2 dimensions, float zoom) {
     float cornery = radius - min(coords.y, dimensions.y - coords.y);
     float dist = length(vec2(cornerx, cornery));
 
-    mask = 1.0 - smoothstep(radius, radius + 2.0 / zoom, dist);
+    mask = 1.0 - smoothstep(radius - 0.75 / zoom, radius + 0.75 / zoom, dist);
   }
 
   return mask;
