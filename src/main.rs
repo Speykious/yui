@@ -138,7 +138,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     info!("Setting up windowing and OpenGL");
     let window_builder = WindowBuilder::new()
-        .with_transparent(true)
+        .with_transparent(false)
         .with_resizable(true)
         .with_inner_size(winit::dpi::PhysicalSize::new(600, 400))
         .with_title("Yui app");
