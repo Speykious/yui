@@ -2,7 +2,7 @@ use std::error::Error;
 
 use app::App;
 use clap::Parser;
-use glam::{vec2, Vec2};
+use glam::{vec2, Vec2, vec4, Vec4};
 use glow::HasContext;
 use glutin::config::ConfigTemplateBuilder;
 use render::gl_buffer::GlBuffer;
@@ -21,7 +21,7 @@ const RECT_FRAG: &str = include_str!("../shaders/round-rect.frag");
 #[allow(unused)]
 struct Data {
     vao: glow::NativeVertexArray,
-    positions: GlBuffer<Vec2>,
+    positions: GlBuffer<Vec4>,
     uvs: GlBuffer<Vec2>,
     indices: GlBuffer<u16>,
     rect_program: glow::NativeProgram,
@@ -36,10 +36,10 @@ struct Data {
 fn setup(yui_app: &mut App) -> Data {
     #[rustfmt::skip]
     let positions = GlBuffer::from(vec![
-        vec2(-200., -100.),
-        vec2( 200., -100.),
-        vec2( 200.,  100.),
-        vec2(-200.,  100.),
+        vec4(-200., -100., 0., 1.),
+        vec4( 200., -100., 0., 1.),
+        vec4( 200.,  100., 0., 1.),
+        vec4(-200.,  100., 0., 1.),
     ]);
 
     #[rustfmt::skip]
@@ -68,7 +68,7 @@ fn setup(yui_app: &mut App) -> Data {
         gl.bind_vertex_array(Some(vao));
 
         positions.upload(&gl, glow::ARRAY_BUFFER, glow::STATIC_DRAW);
-        gl.vertex_attrib_pointer_f32(0, 2, glow::FLOAT, false, 0, 0);
+        gl.vertex_attrib_pointer_f32(0, 4, glow::FLOAT, false, 0, 0);
         gl.enable_vertex_attrib_array(0);
 
         uvs.upload(&gl, glow::ARRAY_BUFFER, glow::STATIC_DRAW);
