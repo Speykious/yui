@@ -14,23 +14,6 @@ use crate::shader::ShaderCompileError;
 pub enum BlendMode {
     /// Normal blending mode.
     Normal,
-    /// Multiply blending mode.
-    Multiply,
-    /// Color Dodge.
-    ColorDodge,
-    /// Linear Dodge.
-    LinearDodge,
-    /// Screen.
-    Screen,
-    /// Clip to Lower.
-    /// Special blending mode that clips the drawable
-    /// to a lower rendered area.
-    ClipToLower,
-    /// Slice from Lower.
-    /// Special blending mode that slices the drawable
-    /// via a lower rendered area.
-    /// (Basically inverse ClipToLower.)
-    SliceFromLower,
 }
 
 #[derive(Debug, thiserror::Error)]
@@ -129,7 +112,11 @@ impl Renderer {
     }
 
     pub fn clear(&self) {
-        unsafe { self.gl.clear(glow::COLOR_BUFFER_BIT) };
+        let gl = &self.gl;
+        unsafe {
+            gl.clear_color(0.1, 0.2, 0.3, 1.0);
+            gl.clear(glow::COLOR_BUFFER_BIT);
+        }
     }
 
     #[inline]
@@ -185,31 +172,7 @@ impl Renderer {
             match blend_mode {
                 BlendMode::Normal => {
                     gl.blend_equation(glow::FUNC_ADD);
-                    gl.blend_func(glow::ONE, glow::ONE_MINUS_SRC_ALPHA);
-                }
-                BlendMode::Multiply => {
-                    gl.blend_equation(glow::FUNC_ADD);
-                    gl.blend_func(glow::DST_COLOR, glow::ONE_MINUS_SRC_ALPHA);
-                }
-                BlendMode::ColorDodge => {
-                    gl.blend_equation(glow::FUNC_ADD);
-                    gl.blend_func(glow::DST_COLOR, glow::ONE);
-                }
-                BlendMode::LinearDodge => {
-                    gl.blend_equation(glow::FUNC_ADD);
-                    gl.blend_func(glow::ONE, glow::ONE);
-                }
-                BlendMode::Screen => {
-                    gl.blend_equation(glow::FUNC_ADD);
-                    gl.blend_func(glow::ONE, glow::ONE_MINUS_SRC_COLOR);
-                }
-                BlendMode::ClipToLower => {
-                    gl.blend_equation(glow::FUNC_ADD);
-                    gl.blend_func(glow::DST_ALPHA, glow::ONE_MINUS_SRC_ALPHA);
-                }
-                BlendMode::SliceFromLower => {
-                    gl.blend_equation(glow::FUNC_SUBTRACT);
-                    gl.blend_func(glow::ONE_MINUS_DST_ALPHA, glow::ONE_MINUS_SRC_ALPHA);
+                    gl.blend_func(glow::SRC_ALPHA, glow::ONE_MINUS_SRC_ALPHA);
                 }
             }
         }
