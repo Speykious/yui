@@ -99,9 +99,6 @@ impl Renderer {
             gl.viewport(0, 0, viewport.x as i32, viewport.y as i32);
         }
 
-        // Shaders
-        // TODO: shaders
-
         Ok(Self {
             gl,
             camera: Camera::default(),

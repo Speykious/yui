@@ -171,7 +171,6 @@ impl App {
 
                     self.renderer.clear();
 
-                    // TODO: draw something here
                     (draw)(&mut self, &data);
 
                     self.gl_surface.swap_buffers(&self.gl_ctx).unwrap();
