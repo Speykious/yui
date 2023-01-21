@@ -26,7 +26,7 @@ use winit::{
     window::{Window, WindowBuilder},
 };
 
-use crate::renderer::Renderer;
+use crate::render::Renderer;
 
 #[inline]
 pub fn app(

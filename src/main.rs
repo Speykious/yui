@@ -2,21 +2,18 @@ use std::error::Error;
 
 use app::App;
 use clap::Parser;
-use gl_buffer::GlBuffer;
 use glam::{vec2, Vec2};
 use glow::HasContext;
 use glutin::config::ConfigTemplateBuilder;
-use renderer::{OpenglRendererError, BlendMode};
+use render::gl_buffer::GlBuffer;
+use render::{shader, BlendMode, OpenglRendererError};
 use tracing::info;
 use tracing_subscriber::{filter::LevelFilter, fmt, prelude::*};
 use winit::window::WindowBuilder;
 
 mod app;
 mod camera;
-mod gl_buffer;
-mod renderer;
-mod shader;
-mod texture;
+mod render;
 
 const RECT_VERT: &str = include_str!("../shaders/rect.vert");
 const RECT_FRAG: &str = include_str!("../shaders/round-rect.frag");
@@ -144,8 +141,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         .with_inner_size(winit::dpi::PhysicalSize::new(600, 400))
         .with_title("Yui app");
 
-    let config_template_builder = ConfigTemplateBuilder::new()
-        .with_multisampling(4);
+    let config_template_builder = ConfigTemplateBuilder::new().with_multisampling(4);
 
     let yui_app = app::app(window_builder, config_template_builder)?;
     yui_app.run(setup, draw)

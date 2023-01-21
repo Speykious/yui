@@ -1,5 +1,9 @@
 #![allow(unused)]
 
+pub mod gl_buffer;
+pub mod shader;
+pub mod texture;
+
 use std::cell::RefCell;
 use std::ops::Deref;
 
@@ -7,7 +11,7 @@ use glam::{uvec2, UVec2};
 use glow::HasContext;
 
 use crate::camera::Camera;
-use crate::shader::ShaderCompileError;
+use shader::ShaderCompileError;
 
 /// Blending mode.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
