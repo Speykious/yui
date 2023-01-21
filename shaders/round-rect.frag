@@ -14,17 +14,15 @@ float roundRect(vec2 coords, float radius, vec2 dimensions, float zoom) {
 
   if ((coords.x < radius || coords.x > dimensions.x - radius) &&
       (coords.y < radius || coords.y > dimensions.y - radius)) {
-
-    float cornerx = radius - min(coords.x, dimensions.x - coords.x);
-    float cornery = radius - min(coords.y, dimensions.y - coords.y);
-    float dist = length(vec2(cornerx, cornery));
-
-    mask = 1.0 - smoothstep(radius - 0.75 / zoom, radius + 0.75 / zoom, dist);
+    vec2 corner = radius - min(coords, dimensions - coords);
+    float dist = length(corner);
+    mask =  1.0 - smoothstep(radius - 0.75 / zoom, radius + 0.75 / zoom, dist);
   }
 
   return mask;
 }
 
 void main() {
-  color = u_color * roundRect(v_uv, u_radius, u_dimensions, u_zoom);
+  float rrMask = roundRect(v_uv * u_dimensions, u_radius, u_dimensions, u_zoom);
+  color = vec4(u_color.rgb, u_color.a * rrMask);
 }

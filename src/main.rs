@@ -47,10 +47,10 @@ fn setup(yui_app: &mut App) -> Data {
 
     #[rustfmt::skip]
     let uvs = GlBuffer::from(vec![
-        vec2(  0.,   0.),
-        vec2(400.,   0.),
-        vec2(400., 200.),
-        vec2(  0., 200.),
+        vec2(0., 0.),
+        vec2(1., 0.),
+        vec2(1., 1.),
+        vec2(0., 1.),
     ]);
 
     #[rustfmt::skip]
@@ -90,6 +90,7 @@ fn setup(yui_app: &mut App) -> Data {
     let u_zoom = unsafe { gl.get_uniform_location(rect_program, "u_zoom") };
 
     unsafe {
+        gl.enable(glow::BLEND);
         gl.uniform_1_f32(u_radius.as_ref(), 50.);
         gl.uniform_2_f32(u_dimensions.as_ref(), 400., 200.);
     }
