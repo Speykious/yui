@@ -26,8 +26,8 @@ struct Data {
     indices: GlBuffer<u16>,
     rect_program: glow::NativeProgram,
     u_mvp: Option<glow::NativeUniformLocation>,
-    u_radius: Option<glow::NativeUniformLocation>,
     u_dimensions: Option<glow::NativeUniformLocation>,
+    u_radius: Option<glow::NativeUniformLocation>,
     u_zoom: Option<glow::NativeUniformLocation>,
     // textures: Vec<Texture>,
 }
@@ -82,8 +82,8 @@ fn setup(yui_app: &mut App) -> Data {
     let rect_program = shader::compile(gl, RECT_VERT, RECT_FRAG).unwrap();
     yui_app.renderer.bind_shader(&&rect_program);
     let u_mvp = unsafe { gl.get_uniform_location(rect_program, "u_mvp") };
-    let u_radius = unsafe { gl.get_uniform_location(rect_program, "u_radius") };
     let u_dimensions = unsafe { gl.get_uniform_location(rect_program, "u_dimensions") };
+    let u_radius = unsafe { gl.get_uniform_location(rect_program, "u_radius") };
     let u_zoom = unsafe { gl.get_uniform_location(rect_program, "u_zoom") };
 
     unsafe {
@@ -99,8 +99,8 @@ fn setup(yui_app: &mut App) -> Data {
         indices,
         rect_program,
         u_mvp,
-        u_radius,
         u_dimensions,
+        u_radius,
         u_zoom,
     }
 }
