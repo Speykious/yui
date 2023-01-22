@@ -3,7 +3,7 @@ use std::error::Error;
 use std::ffi::CString;
 use std::num::NonZeroU32;
 
-use glam::{uvec2, vec2, Vec2};
+use glam::uvec2;
 use glow::HasContext;
 
 use glutin::{
@@ -21,7 +21,7 @@ use raw_window_handle::HasRawWindowHandle;
 use tracing::{debug, error, info, warn};
 
 use winit::{
-    event::{ElementState, Event, KeyboardInput, MouseScrollDelta, VirtualKeyCode, WindowEvent},
+    event::{ElementState, Event, KeyboardInput, VirtualKeyCode, WindowEvent},
     event_loop::{ControlFlow, EventLoop},
     window::{Window, WindowBuilder},
 };
@@ -152,10 +152,10 @@ impl App {
     {
         let data = (setup)(&mut self);
 
-        let mut camera_pos = Vec2::ZERO;
-        let mut mouse_pos = Vec2::ZERO;
-        let mut mouse_pos_held = mouse_pos;
-        let mut mouse_state = ElementState::Released;
+        // let mut camera_pos = Vec2::ZERO;
+        // let mut mouse_pos = Vec2::ZERO;
+        // let mut mouse_pos_held = mouse_pos;
+        // let mut mouse_state = ElementState::Released;
 
         let events = self.events.take().unwrap();
         events.run(move |event, _, control_flow| {
@@ -191,6 +191,9 @@ impl App {
                             NonZeroU32::new(physical_size.height).unwrap(),
                         );
                     }
+
+                    /*
+                    // Move camera when mouse drag
                     WindowEvent::CursorMoved { position, .. } => {
                         mouse_pos = vec2(position.x as f32, position.y as f32);
                         if mouse_state == ElementState::Pressed {
@@ -212,6 +215,10 @@ impl App {
                             camera_pos = self.renderer.camera.position;
                         }
                     }
+                    */
+
+                    /*
+                    // Zoom in or out on mouse wheel
                     WindowEvent::MouseWheel { delta, .. } => {
                         // Handle mouse wheel (zoom)
                         let my = match delta {
@@ -229,6 +236,7 @@ impl App {
 
                         self.window.request_redraw();
                     }
+                    */
                     _ => (),
                 },
                 _ => (),
