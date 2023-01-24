@@ -67,15 +67,15 @@ fn setup(yui_app: &mut App) -> Data {
             .unwrap();
         gl.bind_vertex_array(Some(vao));
 
-        positions.upload(&gl, glow::ARRAY_BUFFER, glow::STATIC_DRAW);
+        positions.upload(gl, glow::ARRAY_BUFFER, glow::STATIC_DRAW);
         gl.vertex_attrib_pointer_f32(0, 4, glow::FLOAT, false, 0, 0);
         gl.enable_vertex_attrib_array(0);
 
-        uvs.upload(&gl, glow::ARRAY_BUFFER, glow::STATIC_DRAW);
+        uvs.upload(gl, glow::ARRAY_BUFFER, glow::STATIC_DRAW);
         gl.vertex_attrib_pointer_f32(1, 2, glow::FLOAT, false, 0, 0);
         gl.enable_vertex_attrib_array(1);
 
-        indices.upload(&gl, glow::ELEMENT_ARRAY_BUFFER, glow::STATIC_DRAW);
+        indices.upload(gl, glow::ELEMENT_ARRAY_BUFFER, glow::STATIC_DRAW);
     }
 
     // Shaders

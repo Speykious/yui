@@ -148,14 +148,9 @@ impl App {
     pub fn run<Se, Dr, T: 'static>(mut self, setup: Se, draw: Dr) -> !
     where
         Se: Fn(&mut Self) -> T + 'static,
-        Dr: Fn(&mut Self, &T) -> () + 'static,
+        Dr: Fn(&mut Self, &T) + 'static,
     {
         let data = (setup)(&mut self);
-
-        // let mut camera_pos = Vec2::ZERO;
-        // let mut mouse_pos = Vec2::ZERO;
-        // let mut mouse_pos_held = mouse_pos;
-        // let mut mouse_state = ElementState::Released;
 
         let events = self.events.take().unwrap();
         events.run(move |event, _, control_flow| {
@@ -175,70 +170,24 @@ impl App {
 
                     self.gl_surface.swap_buffers(&self.gl_ctx).unwrap();
                 }
-                Event::WindowEvent { ref event, .. } => match event {
-                    WindowEvent::Resized(physical_size) => {
-                        debug!(
-                            "Window resized to ({}, {})",
-                            physical_size.width, physical_size.height
-                        );
+                Event::WindowEvent {
+                    event: WindowEvent::Resized(physical_size),
+                    ..
+                } => {
+                    debug!(
+                        "Window resized to ({}, {})",
+                        physical_size.width, physical_size.height
+                    );
 
-                        // Handle window resizing
-                        self.renderer
-                            .resize(physical_size.width, physical_size.height);
-                        self.gl_surface.resize(
-                            &self.gl_ctx,
-                            NonZeroU32::new(physical_size.width).unwrap(),
-                            NonZeroU32::new(physical_size.height).unwrap(),
-                        );
-                    }
-
-                    /*
-                    // Move camera when mouse drag
-                    WindowEvent::CursorMoved { position, .. } => {
-                        mouse_pos = vec2(position.x as f32, position.y as f32);
-                        if mouse_state == ElementState::Pressed {
-                            self.renderer.camera.position = camera_pos
-                                + (mouse_pos - mouse_pos_held) / self.renderer.camera.scale;
-
-                            let cpos = self.renderer.camera.position;
-                            debug!("Scene moved to ({}, {})", cpos.x, cpos.y);
-
-                            self.window.request_redraw();
-                        }
-                    }
-                    WindowEvent::MouseInput { state, .. } => {
-                        debug!("Mouse got {:?}", state);
-
-                        mouse_state = *state;
-                        if mouse_state == ElementState::Pressed {
-                            mouse_pos_held = mouse_pos;
-                            camera_pos = self.renderer.camera.position;
-                        }
-                    }
-                    */
-
-                    /*
-                    // Zoom in or out on mouse wheel
-                    WindowEvent::MouseWheel { delta, .. } => {
-                        // Handle mouse wheel (zoom)
-                        let my = match delta {
-                            MouseScrollDelta::LineDelta(_, y) => *y,
-                            MouseScrollDelta::PixelDelta(pos) => pos.y as f32,
-                        };
-
-                        if my.is_sign_positive() {
-                            self.renderer.camera.scale *= 8.0 * my.abs() / 7.0;
-                            debug!("Zooming to {}", self.renderer.camera.scale);
-                        } else {
-                            self.renderer.camera.scale *= 7.0 * my.abs() / 8.0;
-                            debug!("Dezooming to {}", self.renderer.camera.scale);
-                        }
-
-                        self.window.request_redraw();
-                    }
-                    */
-                    _ => (),
-                },
+                    // Handle window resizing
+                    self.renderer
+                        .resize(physical_size.width, physical_size.height);
+                    self.gl_surface.resize(
+                        &self.gl_ctx,
+                        NonZeroU32::new(physical_size.width).unwrap(),
+                        NonZeroU32::new(physical_size.height).unwrap(),
+                    );
+                }
                 _ => (),
             }
 
