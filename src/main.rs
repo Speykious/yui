@@ -126,7 +126,6 @@ fn draw(yui_app: &mut App, data: &Data) {
 struct Cli;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    miette::set_panic_hook();
     let _cli = Cli::parse();
 
     tracing_subscriber::registry()
