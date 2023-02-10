@@ -88,7 +88,7 @@ fn setup(yui_app: &mut App) -> Data {
 
     unsafe {
         gl.enable(glow::BLEND);
-        gl.uniform_1_f32(u_radius.as_ref(), 50.);
+        gl.uniform_1_f32(u_radius.as_ref(), 10.);
         gl.uniform_2_f32(u_dimensions.as_ref(), 400., 200.);
     }
 

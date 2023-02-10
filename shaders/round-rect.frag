@@ -8,10 +8,10 @@ uniform vec2 u_dimensions;
 uniform float u_radius;
 uniform float u_zoom;
 
-uniform vec4 u_bgColor = vec4(1.0, 0.39, 0.46, 1.0);
+uniform vec4 u_bgColor = vec4(0.11, 0.26, 0.34, 1.0);
 
-uniform vec4 u_borderColor = vec4(1.0, 1.0, 1.0, 1.0);
-uniform float u_strokeWidth = 20;
+uniform vec4 u_borderColor = vec4(0.23, 0.44, 0.49, 1.0);
+uniform float u_strokeWidth = 2;
 
 float roundRect(vec2 coords, float radius, vec2 dimensions, float zoom) {
   float mask = 1.0;
